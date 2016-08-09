@@ -39,8 +39,8 @@ public class ListServlet extends HttpServlet {
 		
 		start.setBoardNum((page-1)*10);
 		list = service.searchPage(start);
-		String pageNum = service.getPageNum() / 10 + 1 + "";
-		
+		int num = service.getPageNum()/10 + 1 ;
+		String pageNum = num+"";
 		RequestDispatcher rd = request.getRequestDispatcher("list.jsp");
 		request.setAttribute("list", list);
 		request.setAttribute("pageNum", pageNum);

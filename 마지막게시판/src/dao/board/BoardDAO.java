@@ -20,20 +20,17 @@ public class BoardDAO {
 	public int count(){
 		int count = 0;
 		try{
-			String sql = "select count(boardNum) from board";
+			String sql = "select count(boardNum) from board_content";
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
-			if(rs.next()){
-				count = rs.getInt("count(boardNum)");
-			}
-			
+			rs.next();
+			count = rs.getInt("count(boardNum)");
 			rs.close();
 			pstmt.close();
 			}catch (Exception e) {
 				// TODO: handle exception
 			}
-		
-		
+
 		return count;
 	}
 	
