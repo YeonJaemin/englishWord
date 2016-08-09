@@ -1,10 +1,13 @@
-
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<% String msg = (String)request.getAttribute("msg");
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
     <meta charset="utf-8">
 
-    <title>게시판 메인</title>
+    <title>글작성 확인</title>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -44,17 +47,17 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="board.html">Home<span class="sr-only">(current)</span></a></li>
+            <li><a href="board.html">Home</a></li>
             <li><a href="list?page=1">게시판 목록</a></li>
-            <li><a href="write.html">게시판 작성</a></li>
+            <li class="active"><a href="write.html">게시판 작성</a></li>
             <li><a href="#">내 글보기</a></li>
             <li><a href="#">로그아웃</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
-			<a href="list?page=1">dfdfd</a>
-          <h2 class="sub-header">환영합니다.</h2>
+		
+          <h2 class="sub-header"><%= msg %></h2>
          
         </div>
       </div>

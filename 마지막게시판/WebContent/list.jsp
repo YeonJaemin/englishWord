@@ -1,10 +1,19 @@
-
-<!DOCTYPE html>
+<%@page import="entity.board.BoardEntity"%>
+<%@page import="java.util.ArrayList"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
     <meta charset="utf-8">
 
-    <title>게시판 메인</title>
+<% 
+
+ArrayList<BoardEntity> list = (ArrayList<BoardEntity>)request.getAttribute("list");
+int pageNum = (new Integer((String)request.getAttribute("pageNum"))).intValue();
+
+%>
+    <title>검색결과</title>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -29,12 +38,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="board.html">게시판 home</a>
+          <a class="navbar-brand" href="list.html">도서검색</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <form action="list" method="post" class="navbar-form navbar-right">
             <input type="text" name="search" class="form-control" placeholder="Search...">
-            <input type="submit" class="form-control" value="내용 검색">
+            <input type="submit" class="form-control" value="도서검색">
           </form>
         </div>
       </div>
@@ -44,8 +53,8 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li class="active"><a href="board.html">Home<span class="sr-only">(current)</span></a></li>
-            <li><a href="list?page=1">게시판 목록</a></li>
+            <li><a href="board.html">Home</a></li>
+            <li class="active"><a href="list?page=1">게시판 목록</a></li>
             <li><a href="write.html">게시판 작성</a></li>
             <li><a href="#">내 글보기</a></li>
             <li><a href="#">로그아웃</a></li>
@@ -53,9 +62,40 @@
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
-			<a href="list?page=1">dfdfd</a>
-          <h2 class="sub-header">환영합니다.</h2>
-         
+	<form action="add" method="post">
+          <h2 class="sub-header">글 목록</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>글 번호</th>
+                  <th>글쓴이</th>
+                  <th>제목</th>
+                  <th>날짜</th>
+                  <th>조회수</th>
+                </tr>
+              </thead>
+              <tbody>
+              <%for(BoardEntity tmp : list ){ %>
+                <tr>
+                  <td><%= tmp.getBoardNum() %></td>
+                  <td><%= tmp.getUid() %></td>
+                  <td><%= tmp.getTitle() %></td>
+                  <td><%= tmp.getDate() %></td>
+                  <td><%= tmp.getEnterNum() %></td>
+                </tr>
+                <%} %>
+              </tbody>
+            </table>
+            <%
+            for(int i= 1 ; i <= pageNum ; i++ ){
+            %>
+         	<a href="list?page=<%= i %>">[<%= i %>]</a>  
+         	<%
+            }
+         	%>
+          </div>
+          </form>
         </div>
       </div>
     </div>

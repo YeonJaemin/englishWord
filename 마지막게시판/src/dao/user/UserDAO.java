@@ -28,10 +28,15 @@ public class UserDAO {
 		else{
 			result =false;
 		}
+		rs.close();
+		pstmt.close();
+		
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
 		
 		return result;
 	}
+	
+	
 }
