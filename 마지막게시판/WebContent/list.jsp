@@ -38,7 +38,7 @@ int pageNum = (new Integer((String)request.getAttribute("pageNum"))).intValue();
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="list.html">도서검색</a>
+          <a class="navbar-brand" href="list.html">게시판 home</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <form action="list" method="post" class="navbar-form navbar-right">
@@ -80,7 +80,7 @@ int pageNum = (new Integer((String)request.getAttribute("pageNum"))).intValue();
                 <tr>
                   <td><%= tmp.getBoardNum() %></td>
                   <td><%= tmp.getUid() %></td>
-                  <td><%= tmp.getTitle() %></td>
+                  <td><a href=""><%= tmp.getTitle() %></a></td>
                   <td><%= tmp.getDate() %></td>
                   <td><%= tmp.getEnterNum() %></td>
                 </tr>

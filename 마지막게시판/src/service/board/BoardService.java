@@ -9,6 +9,20 @@ import entity.board.BoardEntity;
 public class BoardService {
 
 	
+	public BoardEntity detail(BoardEntity entity){
+		Connection con = common.DBTemplate.getConnection();
+		BoardDAO dao = new BoardDAO(con);
+		BoardEntity result = dao.selectDetail(entity);
+		try{
+		con.commit();
+		con.close();
+		} catch(Exception e){
+			
+		}
+		
+		return result;
+	}
+	
 	
 	public int getPageNum(){
 		Connection con = common.DBTemplate.getConnection();

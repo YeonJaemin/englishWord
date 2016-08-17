@@ -17,6 +17,37 @@ public class BoardDAO {
 		this.con = con;
 	}
 	
+	
+	public BoardEntity selectDetail(BoardEntity search){
+		BoardEntity entity = new BoardEntity();
+		try{
+		String sql ="select boardNum,uid,title,date,enterNum,content from board_content where boardNum=?";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1, search.getBoardNum());
+		ResultSet rs = pstmt.executeQuery();
+		if(rs.next()){
+			entity.setBoardNum(rs.getInt("boardNum"));
+			entity.setUid(rs.getString("uid"));
+			entity.setTitle(rs.getString("title"));
+			entity.setDate(rs.getString("date"));
+			entity.setEnterNum(rs.getInt("enterNum"));
+			entity.setContent(rs.getString("content"));
+		}
+		sql ="select boardNum,uid,title,date,enterNum,content from board_content where boardNum=?";
+		
+	
+		
+		
+		rs.close();
+		pstmt.close();
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return entity;
+	}
+	
+	
 	public int count(){
 		int count = 0;
 		try{
