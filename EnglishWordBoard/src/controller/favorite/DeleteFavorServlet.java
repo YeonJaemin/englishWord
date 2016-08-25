@@ -1,4 +1,4 @@
-package controller.word;
+package controller.favorite;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,24 +8,24 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-
-import service.word.WordService;
+import entity.favor.FavorEntity;
+import service.favor.FavorService;
 
 /**
- * Servlet implementation class ListServlet
+ * Servlet implementation class DeleteFavorServlet
  */
-@WebServlet("/list")
-public class ListServlet extends HttpServlet {
+@WebServlet("/deleteFavor")
+public class DeleteFavorServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ListServlet() {
+    public DeleteFavorServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,11 +34,18 @@ public class ListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		String callback = request.getParameter("callback");
-		WordService service = new WordService();
-		JSONArray list = service.list();
-		String json = list.toJSONString();
+		int num = Integer.parseInt(request.getParameter("wordNum"));
+		FavorEntity entity = new FavorEntity();
+		HttpSession session = request.getSession(true);
+		String id = (String)session.getAttribute("id");
+		entity.setId(id);
+		entity.setWordNum(num);
+		FavorService service = new FavorService();	
+		boolean result = service.delete(entity);
+		JSONObject object = new JSONObject();
+		object.put("rs", result);
+		String json = object.toJSONString();
 		response.setContentType("text/plain; charset=utf8");
 		PrintWriter out = response.getWriter();
 		out.println(callback+"("+json+")");

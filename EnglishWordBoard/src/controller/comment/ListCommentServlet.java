@@ -1,4 +1,4 @@
-package controller.word;
+package controller.comment;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,22 +10,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
-
+import entity.comment.CommentEntity;
+import service.comment.CommentService;
 import service.word.WordService;
 
 /**
- * Servlet implementation class ListServlet
+ * Servlet implementation class ListCommentServlet
  */
-@WebServlet("/list")
-public class ListServlet extends HttpServlet {
+@WebServlet("/commentList")
+public class ListCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ListServlet() {
+    public ListCommentServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,10 +34,13 @@ public class ListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		String callback = request.getParameter("callback");
-		WordService service = new WordService();
-		JSONArray list = service.list();
+		int wordNum = Integer.parseInt((String)request.getParameter("wordNum"));
+		System.out.println("´ñ±Û: "+wordNum);
+		CommentEntity entity = new CommentEntity();	
+		entity.setWordNum(wordNum);
+		CommentService service = new CommentService();
+		JSONArray list = service.detail(entity);
 		String json = list.toJSONString();
 		response.setContentType("text/plain; charset=utf8");
 		PrintWriter out = response.getWriter();

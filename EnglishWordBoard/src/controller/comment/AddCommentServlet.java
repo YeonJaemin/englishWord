@@ -1,12 +1,10 @@
-package controller.word;
+package controller.comment;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
-import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,22 +14,20 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 
-import entity.user.UserEntity;
-import entity.word.WordEntity;
-import service.user.UserService;
-import service.word.WordService;
+import entity.comment.CommentEntity;
+import service.comment.CommentService;
 
 /**
- * Servlet implementation class AddServlet
+ * Servlet implementation class AddCommentServlet
  */
-@WebServlet("/add")
-public class AddServlet extends HttpServlet implements Servlet {
+@WebServlet("/addComment")
+public class AddCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddServlet() {
+    public AddCommentServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -41,36 +37,35 @@ public class AddServlet extends HttpServlet implements Servlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String callback = request.getParameter("callback");
-		String enWord = request.getParameter("enWord");
-		String koWord = request.getParameter("koWord");
-		
-		WordEntity entity = new WordEntity();
+		String content = request.getParameter("content");
 		response.setContentType("text/plain; charset=utf8");
-		entity.setEgWord(enWord);
-		entity.setKoWord(koWord);
+		int wordNum = Integer.parseInt((String)request.getParameter("wordNum"));
+		CommentEntity entity = new CommentEntity();
 		HttpSession session = request.getSession(true);
-		String id = (String)session.getAttribute("id");
-		entity.setId(id);
+		System.out.println(content);
+		entity.setComment(content);
+		entity.setWordNum(wordNum);
+		entity.setId((String)session.getAttribute("id"));
 		Date dt = new Date();
 		System.out.println(dt.toString());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd  hh:mm:ss"); 
-		entity.setWdate(sdf.format(dt).toString());
-		WordService service = new WordService();
-		boolean result = service.add(entity);
-		System.out.println(result);
-		JSONObject object = new JSONObject();
-		object.put("rs", result);
-		object.put("id", id);
-		object.put("enWord", enWord);
-		object.put("koWord",koWord );
-		object.put("wordNum", entity.getWordNum());
+		entity.setCdate(sdf.format(dt).toString());
 		
+		CommentService service = new CommentService();
+		service.add(entity);
+		
+		
+		JSONObject object = new JSONObject();
+		object.put("id", (String)session.getAttribute("id"));
 		String json = object.toJSONString();
 		
 		PrintWriter writer = response.getWriter();
 		writer.println(callback+"("+json+")");
 		writer.flush();
 		writer.close();
+		
+		
+		
 	}
 
 	/**
